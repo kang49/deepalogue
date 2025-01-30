@@ -5,7 +5,6 @@ import os
 import tkinter as tk
 import requests
 import easyocr
-import winsound
 import threading
 import webbrowser
 
@@ -67,8 +66,11 @@ def ocr_space_file(filename, api_key, language='eng'):
 
 def on_shortcut():
     print("Shortcut activated!")
-    winsound.Beep(5000, 200)
-
+    app.ai_working = True
+    app.update_overlay_button()
+    if 'overlay' in globals():
+        overlay.update_button_text()
+    
     def get_screenshot_positions():
         if os.path.exists('memory.txt'):
             with open('memory.txt', 'r') as file:
@@ -184,6 +186,7 @@ Each response should contain only one JSON set at a time. If you think there are
                         decoded_line = line.decode('utf-8')
                         parsed_json = json.loads(decoded_line)
                         response_text = parsed_json.get('response', '')
+                        done = parsed_json.get('done', False)
                         print(response_text)
                         
                         # Update the text widget
@@ -195,6 +198,9 @@ Each response should contain only one JSON set at a time. If you think there are
                         # Update the tkinter window to reflect changes
                         overlay.update()
 
+                        if done:
+                            break
+
                 # Start the tkinter main loop after the UI is set up
                 overlay.mainloop()
 
@@ -203,6 +209,11 @@ Each response should contain only one JSON set at a time. If you think there are
             print(f"Error: {response.status_code}")
     except Exception as e:
         pass
+    finally:
+        app.ai_working = False
+        app.update_overlay_button()
+        if 'overlay' in globals():
+            overlay.update_button_text()
 
 class ResizableOverlay(tk.Tk):
     def __init__(self):
@@ -216,7 +227,7 @@ class ResizableOverlay(tk.Tk):
             self.winfo_screenheight() - 120
         ))
 
-        self.start_button = tk.Button(self, text="Start", command=on_shortcut, font=("Arial", 8))
+        self.start_button = tk.Button(self, text="Start", command=self.start_ai, font=("Arial", 8))
         self.start_button.pack(expand=True, fill=tk.BOTH, padx=10, pady=10)
 
         self.bind("<Button-3>", self.close_overlay)  # Right-click to close the overlay
@@ -263,6 +274,17 @@ class ResizableOverlay(tk.Tk):
         self._resizex = 0
         self._resizey = 0
 
+    def start_ai(self):
+        if not app.ai_working:
+            threading.Thread(target=on_shortcut).start()
+            self.update_button_text()
+
+    def update_button_text(self):
+        if app.ai_working:
+            self.start_button.config(text="Loading...", state=tk.DISABLED)
+        else:
+            self.start_button.config(text="Start", state=tk.NORMAL)
+
 def create_overlay_button():
     global overlay
     overlay = ResizableOverlay()
@@ -287,6 +309,7 @@ class App(tk.Tk):
         
         self.listener = None
         self.xquit = False
+        self.ai_working = False  # Variable to track if AI is working
 
     def start_listening(self):
         self.listener = threading.Thread(target=self.listen_for_hotkey)
@@ -305,10 +328,17 @@ class App(tk.Tk):
     def listen_for_hotkey(self):
         while not self.xquit:
             if keyboard.is_pressed('f12'):
+                self.ai_working = True
                 on_shortcut()
+                self.ai_working = False
                 while keyboard.is_pressed('f12'):
                     pass  # Wait until the key is released to avoid multiple triggers
 
+    def update_overlay_button(self):
+        if self.ai_working:
+            self.overlay_button.config(text="Loading...", state=tk.DISABLED)
+        else:
+            self.overlay_button.config(text="Overlay", state=tk.NORMAL)
 
 def check_for_updates():
     response = requests.get("https://api.github.com/repos/kang49/deepalogue/releases/latest")
