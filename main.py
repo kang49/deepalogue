@@ -7,6 +7,7 @@ import requests
 import easyocr
 import winsound
 import threading
+import webbrowser
 
 class ScreenRegionSelector(tk.Tk):
     def __init__(self):
@@ -309,7 +310,28 @@ class App(tk.Tk):
                     pass  # Wait until the key is released to avoid multiple triggers
 
 
+def check_for_updates():
+    response = requests.get("https://api.github.com/repos/kang49/deepalogue/releases/latest")
+    latest_version = response.json()["tag_name"]
+    current_version = "v1.0.1"  # Replace with your current version
+
+    if latest_version > current_version:
+        def open_github_releases():
+            webbrowser.open("https://github.com/kang49/deepalogue/releases")
+
+        update_popup = tk.Tk()
+        update_popup.title("Update Available")
+        update_popup.geometry("300x150")
+        label = tk.Label(update_popup, text=f"A new version {latest_version} is available!")
+        label.pack(pady=10)
+        button_github = tk.Button(update_popup, text="Go to GitHub Releases", command=open_github_releases)
+        button_github.pack(pady=5)
+        button_not_now = tk.Button(update_popup, text="Not Now", command=update_popup.destroy)
+        button_not_now.pack(pady=5)
+        update_popup.mainloop()
+
 if __name__ == "__main__":
+    check_for_updates()
     app = App()
     while not app.xquit:
         try:
