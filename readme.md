@@ -31,6 +31,12 @@
    <a href="https://github.com/kang49/deepalogue/graphs/contributors">
     <img src="https://img.shields.io/github/contributors/kang49/deepalogue?color=black&style=for-the-badge" alt="Contributers">
   </a>
+  <a href="https://github.com/kang49/deepalogue/graphs/releases">
+    <img src="https://img.shields.io/github/downloads/kang49/deepalogue/total.svg?style=for-the-badge&logo=appveyor" alt="Contributers">
+  </a>
+  <a href="https://github.com/kang49/deepalogue">
+    <img src="https://komarev.com/ghpvc/?username=kang49/de&label=Views&color=green&style=flat" alt="Contributers">
+  </a>
 </p>
 
 ## About The Project 😃
@@ -79,6 +85,10 @@
 
 This's great OCR library, high accuracy and easy to use. You can check it out 
 [EasyOCR](https://github.com/JaidedAI/EasyOCR)
+
+## Thank you Ollama for LLM model and API runtime 🤖
+Ollama is a great platform for run LLM model. You can check it out
+[Ollama](https://ollama.com/)
 
 ## License 🔑
 
