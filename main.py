@@ -2,6 +2,7 @@ import keyboard
 import pyautogui
 import json
 import os
+import sys
 import tkinter as tk
 import requests
 import easyocr
@@ -290,6 +291,16 @@ def create_overlay_button():
     overlay = ResizableOverlay()
     overlay.mainloop()
 
+def resource_path(relative_path):
+    """ Get the absolute path to the resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 # Listen for hotkey press
 class App(tk.Tk):
     def __init__(self):
@@ -297,15 +308,29 @@ class App(tk.Tk):
         self.title("DeepAlogue")
         self.geometry("800x600")
         
-        # Add Start and Stop buttons at the bottom
-        self.start_button = tk.Button(self, text="Start", command=self.start_listening, font=("Arial", 14))
-        self.start_button.pack(side=tk.LEFT, padx=20, pady=20, expand=True)
+        # Create a frame to hold the buttons
+        button_frame = tk.Frame(self)
+        button_frame.pack(side=tk.LEFT, padx=20, pady=20, fill=tk.Y, expand=True)
         
-        self.stop_button = tk.Button(self, text="Stop", command=self.stop_listening, font=("Arial", 14))
-        self.stop_button.pack(side=tk.RIGHT, padx=20, pady=20, expand=True)
+        # Add Start and Stop buttons to the frame
+        self.start_button = tk.Button(button_frame, text="Start", command=self.start_listening, font=("Arial", 14))
+        self.start_button.pack(pady=10, fill=tk.X)
         
-        self.overlay_button = tk.Button(self, text="Overlay", command=create_overlay_button, font=("Arial", 14))
-        self.overlay_button.pack(side=tk.BOTTOM, padx=20, pady=20, expand=True)
+        self.stop_button = tk.Button(button_frame, text="Stop", command=self.stop_listening, font=("Arial", 14))
+        self.stop_button.pack(pady=10, fill=tk.X)
+        
+        self.overlay_button = tk.Button(button_frame, text="Overlay", command=create_overlay_button, font=("Arial", 14))
+        self.overlay_button.pack(pady=10, fill=tk.X)
+        
+        self.reset_button = tk.Button(button_frame, text="Reset Position", command=self.reset_positions, font=("Arial", 14))
+        self.reset_button.pack(pady=10, fill=tk.X)
+        
+        # Add image to the bottom with custom size
+        icon_path = resource_path('DeepAlogue_icon.png')
+        self.icon_image = tk.PhotoImage(file=icon_path)
+        self.icon_image = self.icon_image.subsample(5, 5)  # Adjust the subsample values to resize the image
+        self.icon_label = tk.Label(button_frame, image=self.icon_image)
+        self.icon_label.pack(pady=10)
         
         self.listener = None
         self.xquit = False
@@ -340,10 +365,17 @@ class App(tk.Tk):
         else:
             self.overlay_button.config(text="Overlay", state=tk.NORMAL)
 
+    def reset_positions(self):
+        if os.path.exists('memory.txt'):
+            os.remove('memory.txt')
+            print("Position data reset.")
+        else:
+            print("No memory.txt file found to reset.")
+
 def check_for_updates():
-    response = requests.get("https://api.github.com/repos/kang49/deepalogue/releases/latest")
+    response = requests.get("https://bit.ly/deepalogueupdate")
     latest_version = response.json()["tag_name"]
-    current_version = "v1.0.1"  # Replace with your current version
+    current_version = "v1.0.2"  # Replace with your current version
 
     if latest_version > current_version:
         def open_github_releases():

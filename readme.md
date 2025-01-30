@@ -44,7 +44,7 @@
 <div style="display: flex;">
 <img src="https://i.imgur.com/2RZtNUC.png" alt="project-screenshot" width="500">
 
-<img src="https://i.imgur.com/3b5tp5S.png" alt="project-screenshot" width="500">
+<img src="https://i.imgur.com/5BzBagQ.png" alt="project-screenshot" width="500">
 </div>
 <div style="display: flex;">
 <img src="https://i.imgur.com/Txs1PE3.png" alt="project-screenshot" width="500">
@@ -72,6 +72,7 @@
     - Start - Start the program to listen f12 hotkey.
     - Overlay - Show the start button overlay if hotkey not work. You can     move it by drag and drop. 
     - Stop - Stop the program.
+    - Reset Position - Clear the overlay position
 2. If you first time use, it will open 2 fullscreen overlay. One is a A1 that for message from people in game. Another one is B1 that for message options you reply.
 
     ***Note: if after you crop area of screen, it not responsding, Don't worry it's normal and happen just first time.***
@@ -93,7 +94,7 @@ Distributed under the MIT License. See [LICENSE](https://github.com/kang49/deepa
 
 ## Project Founder 😎
 
-* **kang49 | Meta_Keen | Kankawee Aramrak** - *Software Engineer at TensorMiK* - [Github](https://github.com/kang49) - *Build Everything*
+* **kang49 | Meta_Keen | Kankawee Aramrak** - *Software Engineer at TensorMiK* - [Github](https://github.com/kang49)
 
 
 <p align="center">
