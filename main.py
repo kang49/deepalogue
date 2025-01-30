@@ -319,7 +319,7 @@ class App(tk.Tk):
         self.stop_button = tk.Button(button_frame, text="Stop", command=self.stop_listening, font=("Arial", 14))
         self.stop_button.pack(pady=10, fill=tk.X)
         
-        self.overlay_button = tk.Button(button_frame, text="Overlay", command=create_overlay_button, font=("Arial", 14))
+        self.overlay_button = tk.Button(button_frame, text="Overlay", command=self.on_overlay_button_click, font=("Arial", 14))
         self.overlay_button.pack(pady=10, fill=tk.X)
         
         self.reset_button = tk.Button(button_frame, text="Reset Position", command=self.reset_positions, font=("Arial", 14))
@@ -363,7 +363,7 @@ class App(tk.Tk):
         if self.ai_working:
             self.overlay_button.config(text="Loading...", state=tk.DISABLED)
         else:
-            self.overlay_button.config(text="Overlay", state=tk.NORMAL)
+            self.overlay_button.config(text="Overlay", state=tk.DISABLED)
 
     def reset_positions(self):
         if os.path.exists('memory.txt'):
@@ -371,6 +371,10 @@ class App(tk.Tk):
             print("Position data reset.")
         else:
             print("No memory.txt file found to reset.")
+
+    def on_overlay_button_click(self):
+        self.overlay_button.config(state=tk.DISABLED)  # Disable the button immediately
+        create_overlay_button()
 
 def check_for_updates():
     response = requests.get("https://bit.ly/deepalogueupdate")
