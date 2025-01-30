@@ -54,7 +54,7 @@
 
 ## Installations 🛠️
 
-1. Download exe file from [Release](https://github/kang49/deepalogue/releases)
+1. Download exe file from [Release](https://github.com/kang49/deepalogue/releases)
 2. Should create folder for it. and put exe file in that folder. I don't build setup file yet.
 3. Download Ollama from [Ollama](https://ollama.com/)
 4. Open PowerShell or CMD and run this command to download LLM model
