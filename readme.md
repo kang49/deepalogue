@@ -84,9 +84,13 @@
 This's great OCR library, high accuracy and easy to use. You can check it out 
 [EasyOCR](https://github.com/JaidedAI/EasyOCR)
 
-## Thank you Ollama for LLM model and API runtime 🤖
+## Thank you Ollama for API runtime 🤖
 Ollama is a great platform for run LLM model. You can check it out
 [Ollama](https://ollama.com/)
+
+## Thank you Google for Model 🤖
+Gemma2 is developed by Google. This is the best model for dialogue translation that I researched. You can check.
+[Gemma2](https://ollama.com/library/gemma2)
 
 ## License 🔑
 
