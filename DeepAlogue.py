@@ -150,7 +150,7 @@ THIS IS JUST A FORMAT EXAMPLE:
 Each response should contain only one JSON set at a time. If you think there are multiple, you may have misread or incorrectly separated the text.
 
 **Don't text anymore without json and without data i sent you, Because my program listening your answer and it support just json format.** """).replace("\n", "")
-
+    print(prompt)
     print(json.dumps(raw_text, ensure_ascii=False, indent=4))
     response = requests.post("http://localhost:11434/api/generate", json={
         "model": "gemma2:latest",

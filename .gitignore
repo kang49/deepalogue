@@ -127,6 +127,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+myenv/
 
 # Spyder project settings
 .spyderproject
@@ -164,3 +165,4 @@ A1_screenshot.png
 B1_screenshot.png
 DeepAlogue_icon.ico
 DeepAlogue_icon.png
+memory.txt
